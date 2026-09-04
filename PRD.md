@@ -1,7 +1,7 @@
 # G3X RComp — Product Requirements Document
 
 **Versão:** 0.1.0  
-**Status:** proposta para confirmação  
+**Status:** alpha funcional; validação auditiva e de hosts pendente
 **Target:** C++20, JUCE fixado e CMake  
 **Entrega inicial:** VST3 64-bit para Windows; Standalone para desenvolvimento
 
@@ -209,4 +209,3 @@ Presets serão criados do zero e servirão apenas como pontos de partida.
 
 Consulta realizada em 4 de setembro de 2026. As fontes são referências de
 produto e não constituem especificação para clonagem.
-
