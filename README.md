@@ -60,3 +60,21 @@ são originais. Veja [as fontes e limites de uso](docs/references/README.md).
 ## Licença
 
 Distribuído sob a [licença MIT](LICENSE).
+
+## Download e instalação — Windows x64
+
+1. Abra [Actions](https://github.com/6uilhermeTeixeira/plugin-g3x-compressor/actions) e selecione uma execução bem-sucedida da branch `main`.
+2. Em **Artifacts**, baixe `G3X-Compressor-Windows-x64-<commit>`. O download fica disponível por 30 dias; **Run workflow** permite gerar um novo build.
+3. Extraia o ZIP. A raiz contém somente `SHA256SUMS.txt` e a pasta `G3X Compressor.vst3`, com todos os arquivos internos do plugin.
+4. Na pasta extraída, abra o PowerShell e verifique o binário:
+
+```powershell
+$expected, $relativePath = (Get-Content -LiteralPath .\SHA256SUMS.txt -Raw).Trim() -split '  ', 2
+$actual = (Get-FileHash -LiteralPath $relativePath -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($actual -ne $expected) { throw "SHA-256 divergente; baixe o artifact novamente." }
+"SHA-256 confirmado."
+```
+
+5. Copie a pasta **`G3X Compressor.vst3` inteira** para `C:\Program Files\Common Files\VST3` e atualize a busca de plugins da DAW. A cópia pode solicitar permissão de administrador.
+
+O SHA-256 verifica o binário Windows x64 dentro do bundle; não é o hash do ZIP ou dos recursos. O artifact contém o VST3 Release; o aplicativo Standalone continua disponível como alvo de compilação, mas não é incluído no download.

@@ -1,8 +1,12 @@
 name: build
 
 on:
+  workflow_dispatch:
   push:
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   linux:
@@ -23,6 +27,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
   windows:
+    needs: linux
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
@@ -32,8 +37,24 @@ jobs:
         run: cmake --build build --config Release --parallel 2
       - name: Test
         run: ctest --test-dir build -C Release --output-on-failure
-      - name: Package VST3
+      - name: Test VST3 packaging
+        shell: pwsh
+        run: ./scripts/test-package-vst3.ps1
+      - name: Package Windows VST3
+        shell: pwsh
+        run: ./scripts/package-vst3.ps1 -BundlePath "build/G3XCompressor_artefacts/Release/VST3/G3X Compressor.vst3" -Destination dist
+      - name: Upload Windows VST3
+        id: artifact
         uses: actions/upload-artifact@v4
         with:
-          name: G3X-Compressor-Windows-VST3
-          path: build/G3XCompressor_artefacts/Release/VST3/G3X Compressor.vst3
+          name: G3X-Compressor-Windows-x64-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Download instructions
+        shell: pwsh
+        env:
+          ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: |
+          "[Download Windows x64 VST3]($env:ARTIFACT_URL) — available for 30 days." >> $env:GITHUB_STEP_SUMMARY
+          "Extract the ZIP, verify SHA256SUMS.txt, then copy the entire G3X Compressor.vst3 folder to your VST3 directory." >> $env:GITHUB_STEP_SUMMARY

@@ -8,3 +8,4 @@
 *.xcuserstate
 *.log
 .DS_Store
+/dist/
