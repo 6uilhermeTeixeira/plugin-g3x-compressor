@@ -10,7 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Dependencies
-        run: sudo apt-get update && sudo apt-get install -y libasound2-dev libfreetype-dev libfontconfig1-dev libgl1-mesa-dev
+        run: >-
+          sudo apt-get update && sudo apt-get install -y
+          libasound2-dev libfreetype-dev libfontconfig1-dev libgl1-mesa-dev
+          libx11-dev libxcomposite-dev libxcursor-dev libxext-dev
+          libxinerama-dev libxrandr-dev libxrender-dev
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DG3X_BUILD_TESTS=ON
       - name: Build
