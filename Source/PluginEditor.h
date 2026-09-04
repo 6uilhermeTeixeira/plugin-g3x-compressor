@@ -5,12 +5,12 @@
 #include "UI/LookAndFeel.h"
 #include "UI/Meter.h"
 
-class G3XRCompAudioProcessorEditor final : public juce::AudioProcessorEditor,
+class G3XCompressorAudioProcessorEditor final : public juce::AudioProcessorEditor,
                                            private juce::Timer
 {
 public:
-    explicit G3XRCompAudioProcessorEditor(G3XRCompAudioProcessor&);
-    ~G3XRCompAudioProcessorEditor() override;
+    explicit G3XCompressorAudioProcessorEditor(G3XCompressorAudioProcessor&);
+    ~G3XCompressorAudioProcessorEditor() override;
     void paint(juce::Graphics&) override;
     void resized() override;
 
@@ -23,7 +23,7 @@ private:
     void configureChoice(juce::ComboBox&, juce::Label&, const juce::String& title,
                          std::initializer_list<const char*> items);
 
-    G3XRCompAudioProcessor& processor;
+    G3XCompressorAudioProcessor& processor;
     g3x::ui::LookAndFeel lookAndFeel;
 
     juce::Slider threshold, ratio, output, attack, release, mix, trim;
@@ -39,5 +39,5 @@ private:
     std::unique_ptr<SliderAttachment> attackAttachment, releaseAttachment, mixAttachment, trimAttachment;
     std::unique_ptr<ComboAttachment> releaseModeAttachment, behaviorAttachment, characterAttachment;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(G3XRCompAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(G3XCompressorAudioProcessorEditor)
 };

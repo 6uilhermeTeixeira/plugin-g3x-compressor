@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(G3XRComp VERSION 0.1.0 LANGUAGES C CXX)
+project(G3XCompressor VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,13 +17,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(JUCE)
 
-juce_add_plugin(G3XRComp
+juce_add_plugin(G3XCompressor
     COMPANY_NAME "G3X Audio"
-    BUNDLE_ID "audio.g3x.rcomp"
+    BUNDLE_ID "audio.g3x.compressor"
     PLUGIN_MANUFACTURER_CODE G3Xa
     PLUGIN_CODE G3rc
     FORMATS Standalone VST3
-    PRODUCT_NAME "G3X RComp"
+    PRODUCT_NAME "G3X Compressor"
     VST3_CATEGORIES Fx Dynamics
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
@@ -33,7 +33,7 @@ juce_add_plugin(G3XRComp
     COPY_PLUGIN_AFTER_BUILD FALSE
 )
 
-target_sources(G3XRComp PRIVATE
+target_sources(G3XCompressor PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginProcessor.h
     Source/PluginEditor.cpp
@@ -46,13 +46,13 @@ target_sources(G3XRComp PRIVATE
     Source/UI/Meter.h
 )
 
-target_compile_definitions(G3XRComp PUBLIC
+target_compile_definitions(G3XCompressor PUBLIC
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
-target_link_libraries(G3XRComp PRIVATE
+target_link_libraries(G3XCompressor PRIVATE
     juce::juce_audio_utils
     juce::juce_dsp
     PUBLIC
@@ -63,17 +63,17 @@ target_link_libraries(G3XRComp PRIVATE
 
 if(G3X_BUILD_TESTS)
     enable_testing()
-    add_executable(G3XRCompTests
+    add_executable(G3XCompressorTests
         Tests/CompressorEngineTests.cpp
         Source/Dsp/CompressorEngine.cpp
     )
-    target_include_directories(G3XRCompTests PRIVATE Source)
-    target_compile_definitions(G3XRCompTests PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
-    target_link_libraries(G3XRCompTests PRIVATE
+    target_include_directories(G3XCompressorTests PRIVATE Source)
+    target_compile_definitions(G3XCompressorTests PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
+    target_link_libraries(G3XCompressorTests PRIVATE
         juce::juce_audio_basics
         juce::juce_dsp
         juce::juce_recommended_config_flags
         juce::juce_recommended_warning_flags
     )
-    add_test(NAME dsp-tests COMMAND G3XRCompTests)
+    add_test(NAME dsp-tests COMMAND G3XCompressorTests)
 endif()

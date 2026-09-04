@@ -1,6 +1,6 @@
-# G3X RComp
+# G3X Compressor
 
-G3X RComp é um compressor/expander musical VST3 com aplicativo Standalone,
+G3X Compressor é um compressor/expander musical VST3 com aplicativo Standalone,
 desenvolvido em C++20, JUCE 8.0.8 e CMake. O projeto parte dos requisitos do
 [PRD](PRD.md), com DSP, interface, presets e identidade próprios.
 
@@ -27,7 +27,7 @@ ctest --test-dir build -C Release --output-on-failure
 ```
 
 No Linux, ALSA, FreeType, Fontconfig e OpenGL precisam estar instalados. O
-artefato fica em `build/G3XRComp_artefacts/Release/`. No Windows com Visual
+artefato fica em `build/G3XCompressor_artefacts/Release/`. No Windows com Visual
 Studio, use um gerador multi-configuração e `--config Release`.
 
 ## Parâmetros
@@ -54,5 +54,9 @@ Validator e testes no FL Studio continuam sendo requisitos para o beta.
 ## Referência e independência
 
 O Waves Renaissance Compressor foi estudado apenas como referência de fluxo e
-categoria. Marca, código, interface, componentes, textos e presets do G3X RComp
+categoria. Marca, código, interface, componentes, textos e presets do G3X Compressor
 são originais. Veja [as fontes e limites de uso](docs/references/README.md).
+
+## Licença
+
+Distribuído sob a [licença MIT](LICENSE).

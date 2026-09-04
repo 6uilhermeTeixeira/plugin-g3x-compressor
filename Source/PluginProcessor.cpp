@@ -15,7 +15,7 @@ constexpr auto mix = "mixPercent";
 constexpr auto trim = "trimDb";
 }
 
-G3XRCompAudioProcessor::G3XRCompAudioProcessor()
+G3XCompressorAudioProcessor::G3XCompressorAudioProcessor()
     : AudioProcessor(BusesProperties().withInput("Input", juce::AudioChannelSet::stereo(), true)
                                       .withOutput("Output", juce::AudioChannelSet::stereo(), true)),
       state(*this, nullptr, "G3XRCompState", createParameterLayout())
@@ -32,7 +32,7 @@ G3XRCompAudioProcessor::G3XRCompAudioProcessor()
     trim = state.getRawParameterValue(IDs::trim);
 }
 
-juce::AudioProcessorValueTreeState::ParameterLayout G3XRCompAudioProcessor::createParameterLayout()
+juce::AudioProcessorValueTreeState::ParameterLayout G3XCompressorAudioProcessor::createParameterLayout()
 {
     using Float = juce::AudioParameterFloat;
     using Choice = juce::AudioParameterChoice;
@@ -69,19 +69,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout G3XRCompAudioProcessor::crea
     return layout;
 }
 
-void G3XRCompAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
+void G3XCompressorAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     engine.prepare(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
 }
 
-bool G3XRCompAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
+bool G3XCompressorAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
 {
     const auto input = layouts.getMainInputChannelSet();
     const auto output = layouts.getMainOutputChannelSet();
     return input == output && (output == juce::AudioChannelSet::mono() || output == juce::AudioChannelSet::stereo());
 }
 
-void G3XRCompAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer&)
+void G3XCompressorAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer&)
 {
     for (int channel = getTotalNumInputChannels(); channel < getTotalNumOutputChannels(); ++channel)
         buffer.clear(channel, 0, buffer.getNumSamples());
@@ -101,7 +101,7 @@ void G3XRCompAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
     engine.process(buffer);
 }
 
-void G3XRCompAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
+void G3XCompressorAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
 {
     auto tree = state.copyState();
     tree.setProperty("stateVersion", 1, nullptr);
@@ -109,26 +109,26 @@ void G3XRCompAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
         copyXmlToBinary(*xml, destData);
 }
 
-void G3XRCompAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+void G3XCompressorAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     if (auto xml = getXmlFromBinary(data, sizeInBytes))
         if (xml->hasTagName(state.state.getType()))
             state.replaceState(juce::ValueTree::fromXml(*xml));
 }
 
-int G3XRCompAudioProcessor::getNumPrograms()
+int G3XCompressorAudioProcessor::getNumPrograms()
 {
     return 8;
 }
 
-const juce::String G3XRCompAudioProcessor::getProgramName(int index)
+const juce::String G3XCompressorAudioProcessor::getProgramName(int index)
 {
     static constexpr std::array names { "Vocal Leveler", "Bass Vintage", "Drum Punch", "Parallel Smash",
                                         "Mix Glue", "Clean Peaks", "Upward Detail", "Pump Effect" };
     return juce::isPositiveAndBelow(index, static_cast<int>(names.size())) ? names[static_cast<size_t>(index)] : "";
 }
 
-void G3XRCompAudioProcessor::setCurrentProgram(int index)
+void G3XCompressorAudioProcessor::setCurrentProgram(int index)
 {
     struct Preset { float threshold, ratio, attack, release, output, mix, trim; int releaseMode, behavior, character; };
     static constexpr std::array presets {
@@ -158,12 +158,12 @@ void G3XRCompAudioProcessor::setCurrentProgram(int index)
     set(IDs::character, static_cast<float>(preset.character));
 }
 
-juce::AudioProcessorEditor* G3XRCompAudioProcessor::createEditor()
+juce::AudioProcessorEditor* G3XCompressorAudioProcessor::createEditor()
 {
-    return new G3XRCompAudioProcessorEditor(*this);
+    return new G3XCompressorAudioProcessorEditor(*this);
 }
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new G3XRCompAudioProcessor();
+    return new G3XCompressorAudioProcessor();
 }

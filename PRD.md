@@ -1,4 +1,4 @@
-# G3X RComp — Product Requirements Document
+# G3X Compressor — Product Requirements Document
 
 **Versão:** 0.1.0  
 **Status:** alpha funcional; validação auditiva e de hosts pendente
@@ -7,7 +7,7 @@
 
 ## 1. Visão do produto
 
-G3X RComp é um compressor/expander musical de uso geral que une controles
+G3X Compressor é um compressor/expander musical de uso geral que une controles
 convencionais a escolhas simples de comportamento e caráter. Deve funcionar em
 vocais, baixo, bateria, instrumentos e buses, cobrindo nivelamento transparente,
 controle de picos, compressão paralela e efeitos de pumping.
@@ -195,7 +195,7 @@ Presets serão criados do zero e servirão apenas como pontos de partida.
 
 ## 12. Decisões para confirmação
 
-- Nome público `G3X RComp` ou nome sem referência ao produto Waves.
+- Nome público `G3X Compressor` ou nome sem referência ao produto Waves.
 - Warm linear/zero-latency ou oversampling para menor aliasing.
 - Ceiling 0 dBFS por familiaridade ou -1 dBTP por segurança moderna.
 - Expor Trim e Mix na tela principal ou em painel avançado.

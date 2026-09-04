@@ -35,5 +35,5 @@ jobs:
       - name: Package VST3
         uses: actions/upload-artifact@v4
         with:
-          name: G3X-RComp-Windows-VST3
-          path: build/G3XRComp_artefacts/Release/VST3/G3X RComp.vst3
+          name: G3X-Compressor-Windows-VST3
+          path: build/G3XCompressor_artefacts/Release/VST3/G3X Compressor.vst3

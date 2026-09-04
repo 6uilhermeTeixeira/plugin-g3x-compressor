@@ -65,6 +65,6 @@ int main()
             expect(std::isfinite(audio.getSample(channel, sample)), "output must remain finite");
 
     if (failures == 0)
-        std::cout << "All G3X RComp DSP tests passed\n";
+        std::cout << "All G3X Compressor DSP tests passed\n";
     return failures == 0 ? 0 : 1;
 }

@@ -3,12 +3,12 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "Dsp/CompressorEngine.h"
 
-class G3XRCompAudioProcessor final : public juce::AudioProcessor
+class G3XCompressorAudioProcessor final : public juce::AudioProcessor
 {
 public:
     using AudioProcessor::processBlock;
-    G3XRCompAudioProcessor();
-    ~G3XRCompAudioProcessor() override = default;
+    G3XCompressorAudioProcessor();
+    ~G3XCompressorAudioProcessor() override = default;
 
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void releaseResources() override {}
@@ -51,5 +51,5 @@ private:
     std::atomic<float>* trim = nullptr;
     int currentProgram = 0;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(G3XRCompAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(G3XCompressorAudioProcessor)
 };

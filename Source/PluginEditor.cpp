@@ -5,7 +5,7 @@ namespace
 constexpr auto teal = g3x::ui::Colours::teal;
 }
 
-G3XRCompAudioProcessorEditor::G3XRCompAudioProcessorEditor(G3XRCompAudioProcessor& p)
+G3XCompressorAudioProcessorEditor::G3XCompressorAudioProcessorEditor(G3XCompressorAudioProcessor& p)
     : AudioProcessorEditor(&p), processor(p)
 {
     setLookAndFeel(&lookAndFeel);
@@ -52,12 +52,12 @@ G3XRCompAudioProcessorEditor::G3XRCompAudioProcessorEditor(G3XRCompAudioProcesso
     startTimerHz(45);
 }
 
-G3XRCompAudioProcessorEditor::~G3XRCompAudioProcessorEditor()
+G3XCompressorAudioProcessorEditor::~G3XCompressorAudioProcessorEditor()
 {
     setLookAndFeel(nullptr);
 }
 
-void G3XRCompAudioProcessorEditor::configureKnob(juce::Slider& slider, juce::Label& label,
+void G3XCompressorAudioProcessorEditor::configureKnob(juce::Slider& slider, juce::Label& label,
                                                  const juce::String& title, const juce::String& suffix)
 {
     addAndMakeVisible(slider);
@@ -72,7 +72,7 @@ void G3XRCompAudioProcessorEditor::configureKnob(juce::Slider& slider, juce::Lab
     label.setJustificationType(juce::Justification::centred);
 }
 
-void G3XRCompAudioProcessorEditor::configureChoice(juce::ComboBox& box, juce::Label& label,
+void G3XCompressorAudioProcessorEditor::configureChoice(juce::ComboBox& box, juce::Label& label,
                                                    const juce::String& title,
                                                    std::initializer_list<const char*> items)
 {
@@ -90,7 +90,7 @@ void G3XRCompAudioProcessorEditor::configureChoice(juce::ComboBox& box, juce::La
     label.setJustificationType(juce::Justification::centred);
 }
 
-void G3XRCompAudioProcessorEditor::paint(juce::Graphics& g)
+void G3XCompressorAudioProcessorEditor::paint(juce::Graphics& g)
 {
     g.fillAll(juce::Colour(g3x::ui::Colours::background));
     auto bounds = getLocalBounds().toFloat();
@@ -104,7 +104,7 @@ void G3XRCompAudioProcessorEditor::paint(juce::Graphics& g)
     g.setFont(juce::FontOptions { 24.0f }.withStyle("Bold"));
     g.drawText("G3X", 26, 16, 80, 32, juce::Justification::centredLeft);
     g.setColour(juce::Colour(teal));
-    g.drawText("RCOMP", 94, 16, 120, 32, juce::Justification::centredLeft);
+    g.drawText("COMPRESSOR", 94, 16, 156, 32, juce::Justification::centredLeft);
     g.setColour(juce::Colour(g3x::ui::Colours::muted));
     g.setFont(juce::FontOptions { 11.0f }.withStyle("Bold"));
     g.drawText("MUSICAL DYNAMICS", getWidth() - 190, 20, 164, 24, juce::Justification::centredRight);
@@ -123,7 +123,7 @@ void G3XRCompAudioProcessorEditor::paint(juce::Graphics& g)
     g.drawRoundedRectangle(lowerPanel, 13.0f, 1.0f);
 }
 
-void G3XRCompAudioProcessorEditor::resized()
+void G3XCompressorAudioProcessorEditor::resized()
 {
     const auto scale = static_cast<float>(getWidth()) / 920.0f;
     auto content = getLocalBounds().reduced(28);
@@ -184,7 +184,7 @@ void G3XRCompAudioProcessorEditor::resized()
     juce::ignoreUnused(scale);
 }
 
-void G3XRCompAudioProcessorEditor::timerCallback()
+void G3XCompressorAudioProcessorEditor::timerCallback()
 {
     const auto& meters = processor.getMeters();
     const auto inL = meters.inputDb[0].load(std::memory_order_relaxed);
